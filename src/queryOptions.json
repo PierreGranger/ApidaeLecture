@@ -1,0 +1,76 @@
+{
+    "identifiants" : {
+        "type" : "array",
+        "items" : { "type" : "int" }
+    },
+    "identifiers" : {
+        "type" : "array",
+        "items" : { "type" : "int" }
+    },
+    "selectionIds" : {
+        "type" : "array",
+        "items" : { "type" : "int" }
+    },
+    "center" : { 
+        "type" : "json",
+        "summary" : "Dans le cas d’une recherche restreinte à une zone géographique, détermine le centre du cercle à utiliser. Ignoré si les coordonnées sont incomplètes, si la valeur est nulle ou si le champ rayon n’est pas défini. Ce critère utilise le format GeoJSON de définition d’un point.",
+        "examples" : "{\"type\":\"Point\",\"coordinates\":[4.833,45.767]}"
+    },
+    "radius" : { 
+        "type" : "int",
+        "summary" : "Dans le cas d’une recherche restreinte à une zone géographique, détermine le rayon du cercle à utiliser. Cette valeur est exprimée en mètres (m.). Ignoré si la valeur est nulle ou si le champ centre n’est pas défini."
+    },
+    "communeCodesInsee" : {
+        "type" : "array",
+        "items" : { "type" : "int" }
+    },
+    "territoireIds" : {
+        "type" : "array",
+        "items" : { "type" : "int" }
+    },
+    "searchQuery" : { "type" : "string" },
+    "searchFields" : {
+        "type" : "string",
+        "options" : ["NOM","NOM_DESCRIPTION","NOM_DESCRIPTION_CRITERES"]
+    },
+    "criteresQuery" : {
+        "type" : "string",
+        "summary" : "Requête Lucene pour filter les objets touristiques par les éléments de référence, les critères internes et le type. Ignoré si la valeur est nulle. Une requête syntaxiquement incorrecte renverra une erreur.",
+        "examples" : ["type:EQUIPEMENT","+type:EQUIPEMENT -(critere:EquipementActivite_3045 critere:EquipementActivite_3094)"]
+    },
+    "dateDebut" : {
+        "type" : "string",
+        "match" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "dateFin" : {
+        "type" : "string",
+        "match" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "first" : { "type" : "int" },
+    "count" : { "type" : "int" },
+    "order" : {
+        "type" : "string",
+        "options" : ["NOM","IDENTIFIANT","PERTINENCE","DISTANCE","RANDOM","DATE_OUVERTURE"]
+    },
+    "asc" : { "type" : "boolean" },
+    "randomSeed" : { "type" : "string" },
+    "locales" : {
+        "type" : "array",
+        "items" : {
+            "type" : "string"
+        }
+    },
+    "responseFields" : {
+        "type" : "array",
+        "items" : {
+            "type" : "string"
+        }
+    },
+    "membreProprietaireIds" : {
+        "type" : "array",
+        "items" : {
+            "type" : "int"
+        }
+    }
+
+}
