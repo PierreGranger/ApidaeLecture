@@ -5,6 +5,11 @@
     require_once(realpath(dirname(__FILE__.'')).'/../vendor/autoload.php') ;
     require_once(realpath(dirname(__FILE__.'')).'/../config.inc.php') ;
     
+    $id_manif = 5622211 ; // ID d'une manifestation existante, publiée et qui fait partie d'une sélection de votre projet
+    $identifier_manif = 'SITRA2_EVE_5622211' ; // Idem
+    $id_selection = 97646 ; // ID d'une sélection de votre projet (si possible de manifestations)
+
+
     $ApidaeLecture = new ApidaeLecture(array_merge($configApidaeLecture,Array(
         'debug' => true
     ))) ;
@@ -19,35 +24,35 @@
     $examples = Array(
         Array(
             'method' => 'objet-touristique/get-by-id',
-            'params' => Array('id'=>5679881)
+            'params' => Array('id'=>$id_manif)
         ),
         Array(
             'method' => 'objet-touristique/get-by-identifier',
-            'params' => Array('identifier'=>'SITRA2_HOT_5679881')
+            'params' => Array('identifier'=>$identifier_manif)
         ),
         Array(
             'method' => 'recherche/list-identifiants',
-            'params' => Array('selectionIds'=>[97646]),
+            'params' => Array('selectionIds'=>[$id_selection]),
         ),
         Array(
             'method' => 'recherche/list-objets-touristiques',
-            'params' => Array('selectionIds'=>[97646])
+            'params' => Array('selectionIds'=>[$id_selection])
         ),
         Array(
             'method' => 'agenda/simple/list-identifiants',
-            'params' => Array('selectionIds'=>[97646])
+            'params' => Array('selectionIds'=>[$id_selection])
         ),
         Array(
             'method' => 'agenda/simple/list-objets-touristiques',
-            'params' => Array('selectionIds'=>[97646])
+            'params' => Array('selectionIds'=>[$id_selection])
         ),
         Array(
             'method' => 'agenda/detaille/list-identifiants',
-            'params' => Array('selectionIds'=>[97646])
+            'params' => Array('selectionIds'=>[$id_selection])
         ),
         Array(
             'method' => 'agenda/detaille/list-objets-touristiques',
-            'params' => Array('selectionIds'=>[97646])
+            'params' => Array('selectionIds'=>[$id_selection])
         ),
         Array(
             'method' => 'referentiel/communes',
@@ -69,7 +74,7 @@
         ),
         Array(
             'method' => 'referentiel/selections-par-objet',
-            'params' => Array('referenceIds'=>[5622211])
+            'params' => Array('referenceIds'=>[$id_manif])
         ),
         
         Array(

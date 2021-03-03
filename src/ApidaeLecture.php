@@ -251,12 +251,19 @@
 			} catch ( RequestException $e ) {
 				$response = $e->getResponse() ;
 				$request = $e->getRequest() ;
+				$code = $response->getStatusCode() ;
+
+				if ( $code == 404 )
+				{
+					return false ;
+				}
+
 				if ( $this->isJson($response->getBody()) )
 				{
 					throw new ApidaeException('API RequestException : '.$response->getStatusCode(),ApidaeException::INVALID_HTTPCODE,Array(
 						'debug' => $this->debug,
 						'response' => $response,
-						'request' => $request->getUri()
+						//'request' => $request->getUri()
 					)) ;
 				}
 			}

@@ -1,6 +1,6 @@
 {
-    "name": "pierre-granger/apidae-membres",
-    "description": "Classe d'utilisation des API membres & utilisateurs d'Apidae ",
+    "name": "pierre-granger/apidae-lecture",
+    "description": "Classe d'utilisation des API de consultation d'Apidae ",
     "require": {
         "php": "^7.0",
         "pierre-granger/apidae-core": "0.*",
