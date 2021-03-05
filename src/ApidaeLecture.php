@@ -68,7 +68,7 @@
 		 * Cette fonction s'occupe aussi de vérifier les paramètres passés, y compris ceux compris dans query (responseFields, dateDebug, radius...)
 		 * Elle fournira également, si $this->debug == true, le détail des erreurs s'il y en a pour faciliter le travail du développeur
 		 */
-		public function call($method,$params=null) {
+		public function call($method,$params=null,$format='object') {
 			
 			if ( ! is_array($params) ) $params = Array() ;
 
@@ -269,7 +269,15 @@
 			}
 
 			if ( $response->getStatusCode() == 200 )
-				return $response->getBody() ;
+			{
+				$body = $response->getBody() ;
+				if ( $this->isJson($body) )
+				{
+					if ( $format == 'object' ) return json_decode($body) ;
+					elseif ( $format == 'array' ) return json_decode($body,true) ;
+				}
+				return $body ;
+			}
 			else
 			{
 				throw new ApidaeException('API bad_response : '.$response->getStatusCode(),ApidaeException::INVALID_HTTPCODE,Array(

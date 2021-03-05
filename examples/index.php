@@ -17,7 +17,7 @@
     function showResult($body) {
         echo '<h3>Résultat</h3>' ;
         echo '<pre style="max-height:200px;font-size:.8em;background:#dff0d8;color:#468847;overflow:scroll;">' ;
-            echo $body ;
+            var_dump($body) ;
         echo '</pre>' ;
     }
 
