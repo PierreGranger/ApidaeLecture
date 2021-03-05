@@ -242,12 +242,10 @@
 			}
 
 			try {
-				echo '<pre>' ;
 				$response = $this->client->get($relative_uri,[
 					'query' => $request_query,
 					'debug' => $this->debugQuery
 				]) ;
-				echo '</pre>' ;
 			} catch ( RequestException $e ) {
 				$response = $e->getResponse() ;
 				$request = $e->getRequest() ;
