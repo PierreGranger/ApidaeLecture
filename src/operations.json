@@ -1,140 +1,168 @@
 {
-    "objet-touristique/get-by-id" : {
+    "objet-touristique/get-by-id": {
         "uri": "objet-touristique/get-by-id/{id}",
-        "summary" : "Récupérez un objet touristique à partir de son identifiant.",
-        "type_apidae" : "uri", 
-        "parameters" : {
-            "id" : {
-                "location" : "uri",
-                "description" : "Identifiant de l'objet",
-                "type" : "int",
-                "required" : true
-            }
-        }
-    },
-    "objet-touristique/get-by-identifier" : {
-        "uri": "objet-touristique/get-by-identifier/{identifier}",
-        "summary" : "Récupérez un objet touristique à partir de son identifier.",
-        "type_apidae" : "uri", 
-        "parameters" : {
-            "identifier" : {
-                "location" : "uri",
-                "description" : "Identifier de l'objet",
-                "type" : "string",
-                "required" : true
-            }
-        }
-    },
-    "recherche/list-objets-touristiques" : {
-        "summary" : "Récupérez une liste d’objets touristiques à partir d’une recherche.",
-        "type_apidae" : "query",
-        "parameters" : "queryOptions"
-    },
-    "recherche/list-identifiants" : {
-        "summary" : "Récupérez une liste d’identifiants d’objets touristiques à partir d’une recherche.",
-        "type_apidae" : "query",
-        "parameters" : "queryOptions"
-    },
-    "agenda/simple/list-identifiants" : {
-        "summary" : "Récupérez une liste d’identifiants d’objets touristiques à partir d’une recherche, trié par date d’ouverture.",
-        "type_apidae" : "query",
-        "parameters" : "queryOptions"
-    },
-    "agenda/simple/list-objets-touristiques" : {
-        "summary" : "Récupérez une liste d’objets touristiques à partir d’une recherche, trié par date d’ouverture.",
-        "type_apidae" : "query",
-        "parameters" : "queryOptions"
-    },
-    "agenda/detaille/list-identifiants" : {
-        "summary" : "Récupérez des listes d’identifiants triés par jour d’ouverture à partir d’une recherche.",
-        "type_apidae" : "query",
-        "parameters" : "queryOptions"
-    },
-    "agenda/detaille/list-objets-touristiques" : {
-        "summary" : "Récupérez des listes d’objets triés par jour d’ouverture à partir d’une recherche.",
-        "type_apidae" : "query",
-        "parameters" : "queryOptions"
-    },
-    "referentiel/communes" : {
-        "type_apidae" : "query", 
-        "parameters" : {
-            "communeIds" : {
-                "location" : "query_apidae",
-                "description" : "Identifiant des communes",
-                "type" : "array",
-                "items" : {
-                    "type": "int"
+        "summary": "Récupérez un objet touristique à partir de son identifiant.",
+        "type_apidae": "uri",
+        "parameters": {
+            "id": {
+                "location": "uri",
+                "description": "Identifiant de l'objet",
+                "type": "int",
+                "required": true
+            },
+            "responseFields": {
+                "location": "uri",
+                "type": "string",
+                "items": {
+                    "type": "string"
                 }
             },
-            "codesInsee" : {
-                "location" : "query_apidae",
-                "description" : "Codes INSEE des communes",
-                "type" : "array",
-                "items" : {
+            "locales": {
+                "location": "uri",
+                "type": "string",
+                "items": {
                     "type": "string"
                 }
             }
         }
     },
-    "referentiel/elements-reference" : {
-        "type_apidae" : "query", 
-        "parameters" : {
-            "elementReferenceIds" : {
-                "location" : "query_apidae",
-                "type" : "array",
-                "items" : {
+    "objet-touristique/get-by-identifier": {
+        "uri": "objet-touristique/get-by-identifier/{identifier}",
+        "summary": "Récupérez un objet touristique à partir de son identifier.",
+        "type_apidae": "uri",
+        "parameters": {
+            "identifier": {
+                "location": "uri",
+                "description": "Identifier de l'objet",
+                "type": "string",
+                "required": true
+            },
+            "responseFields": {
+                "location": "uri",
+                "type": "string",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "locales": {
+                "location": "uri",
+                "type": "string",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "recherche/list-objets-touristiques": {
+        "summary": "Récupérez une liste d’objets touristiques à partir d’une recherche.",
+        "type_apidae": "query",
+        "parameters": "queryOptions"
+    },
+    "recherche/list-identifiants": {
+        "summary": "Récupérez une liste d’identifiants d’objets touristiques à partir d’une recherche.",
+        "type_apidae": "query",
+        "parameters": "queryOptions"
+    },
+    "agenda/simple/list-identifiants": {
+        "summary": "Récupérez une liste d’identifiants d’objets touristiques à partir d’une recherche, trié par date d’ouverture.",
+        "type_apidae": "query",
+        "parameters": "queryOptions"
+    },
+    "agenda/simple/list-objets-touristiques": {
+        "summary": "Récupérez une liste d’objets touristiques à partir d’une recherche, trié par date d’ouverture.",
+        "type_apidae": "query",
+        "parameters": "queryOptions"
+    },
+    "agenda/detaille/list-identifiants": {
+        "summary": "Récupérez des listes d’identifiants triés par jour d’ouverture à partir d’une recherche.",
+        "type_apidae": "query",
+        "parameters": "queryOptions"
+    },
+    "agenda/detaille/list-objets-touristiques": {
+        "summary": "Récupérez des listes d’objets triés par jour d’ouverture à partir d’une recherche.",
+        "type_apidae": "query",
+        "parameters": "queryOptions"
+    },
+    "referentiel/communes": {
+        "type_apidae": "query",
+        "parameters": {
+            "communeIds": {
+                "location": "query_apidae",
+                "description": "Identifiant des communes",
+                "type": "array",
+                "items": {
+                    "type": "int"
+                }
+            },
+            "codesInsee": {
+                "location": "query_apidae",
+                "description": "Codes INSEE des communes",
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "referentiel/elements-reference": {
+        "type_apidae": "query",
+        "parameters": {
+            "elementReferenceIds": {
+                "location": "query_apidae",
+                "type": "array",
+                "items": {
                     "type": "int"
                 }
             }
         }
     },
-    "referentiel/criteres-internes" : {
-        "type_apidae" : "query", 
-        "parameters" : {
-            "critereInterneIds" : {
-                "location" : "query_apidae",
-                "type" : "array",
-                "items" : {
+    "referentiel/criteres-internes": {
+        "type_apidae": "query",
+        "parameters": {
+            "critereInterneIds": {
+                "location": "query_apidae",
+                "type": "array",
+                "items": {
                     "type": "int"
                 }
             }
         }
     },
-    "referentiel/selections" : {
-        "summary" : "Récupérez la liste des sélections du projet",
-        "type_apidae" : "query", 
-        "parameters" : {
-            "selectionIds" : {
-                "location" : "query_apidae",
-                "description" : "Identifiant des sélections",
-                "type" : "array",
-                "items" : {
+    "referentiel/selections": {
+        "summary": "Récupérez la liste des sélections du projet",
+        "type_apidae": "query",
+        "parameters": {
+            "selectionIds": {
+                "location": "query_apidae",
+                "description": "Identifiant des sélections",
+                "type": "array",
+                "items": {
                     "type": "int"
                 }
             }
         }
     },
-    "referentiel/selections-par-objet" : {
-        "summary" : "récupération de sélections par objet touristique",
-        "type_apidae" : "query", 
-        "parameters" : {
-            "referenceIds" : {
-                "location" : "query_apidae",
-                "description" : "les identifiants des objets touristiques dont vous voulez récupérer les sélections. Si plusieurs objets touristiques sont spécifiées, on applique un opérateur OU entre elles. Si des identifiants d’objet touristique n’appartenant pas à votre membre sont dans la liste, ils sont ignorés. Si la liste est nulle ou vide, toutes les sélections de votre site web sont retournées.",
-                "type" : "array",
-                "items" : {
+    "referentiel/selections-par-objet": {
+        "summary": "récupération de sélections par objet touristique",
+        "type_apidae": "query",
+        "parameters": {
+            "referenceIds": {
+                "location": "query_apidae",
+                "description": "les identifiants des objets touristiques dont vous voulez récupérer les sélections. Si plusieurs objets touristiques sont spécifiées, on applique un opérateur OU entre elles. Si des identifiants d’objet touristique n’appartenant pas à votre membre sont dans la liste, ils sont ignorés. Si la liste est nulle ou vide, toutes les sélections de votre site web sont retournées.",
+                "type": "array",
+                "items": {
                     "type": "int"
                 }
             }
         }
     },
-    "utilisateur/get-by-id" : {
-        "uri" : "utilisateur/get-by-id/{id}",
-        "type_apidae" : "uri", 
-        "parameters" : {
-            "id" : {
-                "location" : "uri",
-                "type" : "int"
+    "utilisateur/get-by-id": {
+        "uri": "utilisateur/get-by-id/{id}",
+        "type_apidae": "uri",
+        "parameters": {
+            "id": {
+                "location": "uri",
+                "type": "int"
             }
         }
     }
