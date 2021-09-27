@@ -73,18 +73,18 @@ class ApidaeLecture extends ApidaeCore
 	public function call($method, $params = null, $format = 'object')
 	{
 
-		if (!is_array($params)) $params = array();
+		if (!is_array($params)) $params = [];
 
-		$auth = array('projetId' => $this->projet_consultation_projetId, 'apiKey' => $this->projet_consultation_apiKey);
+		$auth = ['projetId' => $this->projet_consultation_projetId, 'apiKey' => $this->projet_consultation_apiKey];
 
-		$erreurs = array();
+		$erreurs = [];
 
 		if (!isset($this::$operations[$method])) {
-			throw new ApidaeException('bad method', null, array(
+			throw new ApidaeException('bad method', null, [
 				'debug' => $this->debug,
 				'details' => 'La méthode utilisée (' . $method . ') ne fait pas partie de la liste ci-dessous',
 				'methodes' => array_keys($this::$operations)
-			));
+			]);
 		}
 
 		/**
@@ -95,19 +95,18 @@ class ApidaeLecture extends ApidaeCore
 		$operation_uri = isset($operation['uri']) ? $operation['uri'] : $method;
 		$type_apidae = $operation['type_apidae'];
 
-		$traites = array();
-
-		$params_uri = array();
+		$traites = [];
+		$params_uri = [];
 		/**
 		 * $apidae_query désigne le $_GET['query'] = {"id":..,"apiKey":..}
 		 * ne pas confondre avec $request_query qui sera le paramètre Guzzle
 		 */
-		$apidae_query = array();
+		$apidae_query = [];
 		/**
 		 * $request_query correspond au paramètre ['query' => ["apiKey":"...."]]
 		 * qui sera passé à Guzzle pour lancer la requête
 		 */
-		$request_query = array();
+		$request_query = [];
 
 		/**
 		 * Au final on aura quelque chose du genre :
@@ -132,7 +131,7 @@ class ApidaeLecture extends ApidaeCore
 				foreach (self::$queryOptions as $param => $desc) {
 					$params_traites[] = $param;
 
-					$erreurs_param = array();
+					$erreurs_param = [];
 
 					if (isset($desc['required']) && !isset($params[$param]))
 						$erreurs_param[] = $param . ' required';
@@ -223,10 +222,10 @@ class ApidaeLecture extends ApidaeCore
 		}
 
 		if (sizeof($erreurs) > 0) {
-			throw new ApidaeException('errors', ApidaeException::INVALID_PARAMETER, array(
+			throw new ApidaeException('errors', ApidaeException::INVALID_PARAMETER, [
 				'debug' => $this->debug,
 				'errors' => $erreurs
-			));
+			]);
 		}
 
 		try {
@@ -244,11 +243,11 @@ class ApidaeLecture extends ApidaeCore
 			}
 
 			if ($this->isJson($response->getBody())) {
-				throw new ApidaeException('API RequestException : ' . $response->getStatusCode(), ApidaeException::INVALID_HTTPCODE, array(
+				throw new ApidaeException('API RequestException : ' . $response->getStatusCode(), ApidaeException::INVALID_HTTPCODE, [
 					'debug' => $this->debug,
 					'response' => $response,
 					//'request' => $request->getUri()
-				));
+				]);
 			}
 		}
 
@@ -260,11 +259,11 @@ class ApidaeLecture extends ApidaeCore
 			}
 			return $body;
 		} else {
-			throw new ApidaeException('API bad_response : ' . $response->getStatusCode(), ApidaeException::INVALID_HTTPCODE, array(
+			throw new ApidaeException('API bad_response : ' . $response->getStatusCode(), ApidaeException::INVALID_HTTPCODE, [
 				'debug' => $this->debug,
 				'request' => $request,
 				'response' => $response,
-			));
+			]);
 		}
 	}
 }
