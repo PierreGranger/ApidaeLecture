@@ -165,5 +165,21 @@
                 "type": "int"
             }
         }
+    },
+    "collaborateurs": {
+        "uri": "collaborateurs",
+        "summary": "Liste les collaborateurs des offres referenceIds.",
+        "type_apidae": "query",
+        "parameters": {
+            "referenceIds": {
+                "location": "query_apidae",
+                "description": "Identifier de l'objet",
+                "type": "array",
+                "required": true,
+                "items": {
+                    "type": "int"
+                }
+            }
+        }
     }
 }
