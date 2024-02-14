@@ -26,6 +26,7 @@ class ApidaeLecture extends ApidaeCore
     public static $queryOptions;
 
     private $debugQuery = false;
+    private Client $client;
 
     public function __construct(array $params = null)
     {
