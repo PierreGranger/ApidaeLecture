@@ -3,10 +3,9 @@
 namespace PierreGranger;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\UriTemplate\UriTemplate;
-use Guzzle\Service\Description\ServiceDescription;
-use GuzzleHttp\Exception\RequestException;
 use PierreGranger\ApidaeException;
+use GuzzleHttp\UriTemplate\UriTemplate;
+use GuzzleHttp\Exception\RequestException;
 
 class ApidaeLecture extends ApidaeCore
 {

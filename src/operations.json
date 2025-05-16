@@ -11,14 +11,14 @@
                 "required": true
             },
             "responseFields": {
-                "location": "uri",
+                "location": "query",
                 "type": "string",
                 "items": {
                     "type": "string"
                 }
             },
             "locales": {
-                "location": "uri",
+                "location": "query",
                 "type": "string",
                 "items": {
                     "type": "string"
