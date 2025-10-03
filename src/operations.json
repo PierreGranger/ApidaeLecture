@@ -156,6 +156,20 @@
             }
         }
     },
+    "referentiel/criteres-interdits": {
+        "summary": "récupération des interdictions pour un ou plusieurs critères donnés",
+        "type_apidae": "query",
+        "parameters": {
+            "elementReferenceIds": {
+                "location": "query_apidae",
+                "description": "Identifiant des éléments de réference",
+                "type": "array",
+                "items": {
+                    "type": "int"
+                }
+            }
+        }
+    },
     "utilisateur/get-by-id": {
         "uri": "utilisateur/get-by-id/{id}",
         "type_apidae": "uri",
