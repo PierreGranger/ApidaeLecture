@@ -170,6 +170,31 @@
             }
         }
     },
+    "referentiel/elements-reference/autorises": {
+        "summary": "récupération des critères éligiles dans un contexte donné",
+        "type_apidae": "query",
+        "http_method": "POST",
+        "parameters": {
+            "type": {
+                "location": "query_apidae",
+                "description": "Type objet",
+                "type": "string"
+            },
+            "field": {
+                "location": "query_apidae",
+                "description": "Path du field pour lequel on veut récupérer les critères autorisés (ex: informations.informationsLegales.modeGestion)",
+                "type": "string"
+            },
+            "contexte": {
+                "location": "query_apidae",
+                "description": "Liste des critères de l'offre pour laquelle on souhaite récupérer les critères autorisés",
+                "type": "array",
+                "items": {
+                    "type": "array"
+                }
+            }
+        }
+    },
     "utilisateur/get-by-id": {
         "uri": "utilisateur/get-by-id/{id}",
         "type_apidae": "uri",

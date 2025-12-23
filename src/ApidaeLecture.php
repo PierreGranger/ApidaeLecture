@@ -27,7 +27,7 @@ class ApidaeLecture extends ApidaeCore
     private $debugQuery = false;
     private Client $client;
 
-    public function __construct(array $params = null)
+    public function __construct(?array $params)
     {
         parent::__construct($params);
 
@@ -74,7 +74,7 @@ class ApidaeLecture extends ApidaeCore
      * Cette fonction s'occupe aussi de vérifier les paramètres passés, y compris ceux compris dans query (responseFields, dateDebug, radius...)
      * Elle fournira également, si $this->debug == true, le détail des erreurs s'il y en a pour faciliter le travail du développeur
      */
-    public function call($method, $params = null, $format = 'object')
+    public function call($endpoint, $params = null, $format = 'object')
     {
         if (!is_array($params)) {
             $params = [];
@@ -84,21 +84,24 @@ class ApidaeLecture extends ApidaeCore
 
         $erreurs = [];
 
-        if (!isset($this::$operations[$method])) {
-            throw new ApidaeException('bad method', null, [
+        if (!isset($this::$operations[$endpoint])) {
+            throw new ApidaeException('bad endpoint', null, [
                 'debug' => $this->debug,
-                'details' => 'La méthode utilisée (' . $method . ') ne fait pas partie de la liste ci-dessous',
-                'methodes' => array_keys($this::$operations)
+                'details' => $endpoint . ' ne fait pas partie des endpoints autorisés',
+                'endpoints' => array_keys($this::$operations)
             ]);
         }
 
         /**
          * $operation_desc contient la description en Array de l'opération
          */
-        $operation = $this::$operations[$method];
+        $operation = $this::$operations[$endpoint];
 
-        $operation_uri = isset($operation['uri']) ? $operation['uri'] : $method;
+        $operation_uri = isset($operation['uri']) ? $operation['uri'] : $endpoint;
         $type_apidae = $operation['type_apidae'];
+
+        $http_method = isset($operation['http_method']) && in_array($operation['http_method'], ['GET', 'POST', 'PUT', 'DELETE']) ? $operation['http_method'] : 'GET' ;
+        $http_method = mb_strtolower($http_method);
 
         $traites = [];
         $params_uri = [];
@@ -262,11 +265,15 @@ class ApidaeLecture extends ApidaeCore
             ]);
         }
 
+        $options = ['debug' => $this->debugQuery] ;
+        if ( $http_method == 'GET' ) {
+            $options['query'] = $request_query ;
+        } elseif ( $http_method == 'POST' ) {
+            $options['json'] = $request_query ;
+        }
+        
         try {
-            $response = $this->client->get($relative_uri, [
-                'query' => $request_query,
-                'debug' => $this->debugQuery
-            ]);
+            $response = $this->client->$$http_method($relative_uri, $options);
         } catch (RequestException $e) {
             $request = $e->getRequest();
             if ($e->hasResponse()) {

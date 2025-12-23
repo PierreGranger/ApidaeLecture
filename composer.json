@@ -2,8 +2,8 @@
     "name": "pierre-granger/apidae-lecture",
     "description": "Classe d'utilisation des API de consultation d'Apidae",
     "require": {
-        "php": "^7.0|^8.0",
-        "pierre-granger/apidae-core": "^0.6",
+        "php": "^8.0",
+        "pierre-granger/apidae-core": "^0.7",
         "guzzlehttp/guzzle": "^7.2",
         "guzzlehttp/uri-template": "^0.2.0"
     },
