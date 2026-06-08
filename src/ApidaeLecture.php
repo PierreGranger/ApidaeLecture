@@ -25,7 +25,7 @@ class ApidaeLecture extends ApidaeCore
     public static $queryOptions;
 
     private $debugQuery = false;
-    private Client $client;
+    protected Client $client;
 
     public function __construct(?array $params)
     {
@@ -74,7 +74,7 @@ class ApidaeLecture extends ApidaeCore
      * Cette fonction s'occupe aussi de vérifier les paramètres passés, y compris ceux compris dans query (responseFields, dateDebug, radius...)
      * Elle fournira également, si $this->debug == true, le détail des erreurs s'il y en a pour faciliter le travail du développeur
      */
-    public function call($endpoint, $params = null, $format = 'object')
+    public function call(string $endpoint, ?array $params = null, string $format = 'object'): mixed
     {
         if (!is_array($params)) {
             $params = [];
@@ -85,7 +85,7 @@ class ApidaeLecture extends ApidaeCore
         $erreurs = [];
 
         if (!isset($this::$operations[$endpoint])) {
-            throw new ApidaeException('bad endpoint', null, [
+            throw new ApidaeException('bad endpoint', ApidaeException::INVALID_PARAMETER, [
                 'debug' => $this->debug,
                 'details' => $endpoint . ' ne fait pas partie des endpoints autorisés',
                 'endpoints' => array_keys($this::$operations)
@@ -103,7 +103,7 @@ class ApidaeLecture extends ApidaeCore
         $http_method = isset($operation['http_method']) && in_array($operation['http_method'], ['GET', 'POST', 'PUT', 'DELETE']) ? $operation['http_method'] : 'GET' ;
         $http_method = mb_strtolower($http_method);
 
-        $traites = [];
+        $params_traites = [];
         $params_uri = [];
         /**
          * $apidae_query désigne le $_GET['query'] = {"id":..,"apiKey":..}
@@ -155,10 +155,10 @@ class ApidaeLecture extends ApidaeCore
                         if (!is_array($value)) {
                             $erreurs_param[] = $param . ' must be an array';
                         } else {
-                            if ($desc['items']['type'] == 'int' && sizeof(array_filter($value, "is_int")) != sizeof($value)) {
+                            if ($desc['items']['type'] == 'int' && count(array_filter($value, 'is_int')) != count($value)) {
                                 $erreurs_param[] = $param . ' must be an array of integers';
                             }
-                            if ($desc['items']['type'] == 'string' && sizeof(array_filter($value, "is_string")) != sizeof($value)) {
+                            if ($desc['items']['type'] == 'string' && count(array_filter($value, 'is_string')) != count($value)) {
                                 $erreurs_param[] = $param . ' must be an array of strings';
                             }
                         }
@@ -178,7 +178,7 @@ class ApidaeLecture extends ApidaeCore
                         }
                     }
 
-                    if (sizeof($erreurs_param) > 0) {
+                    if (count($erreurs_param) > 0) {
                         $erreurs = array_merge($erreurs, $erreurs_param);
                     }
                     $apidae_query[$param] = $value;
@@ -221,10 +221,10 @@ class ApidaeLecture extends ApidaeCore
                     if (!is_array($value)) {
                         $erreurs[] = $param . ' must be an array';
                     } else {
-                        if ($desc['items']['type'] == 'int' && sizeof(array_filter($value, "is_int")) != sizeof($value)) {
+                        if ($desc['items']['type'] == 'int' && count(array_filter($value, 'is_int')) != count($value)) {
                             $erreurs[] = $param . ' must be an array of integers';
                         }
-                        if ($desc['items']['type'] == 'string' && sizeof(array_filter($value, "is_string")) != sizeof($value)) {
+                        if ($desc['items']['type'] == 'string' && count(array_filter($value, 'is_string')) != count($value)) {
                             $erreurs[] = $param . ' must be an array of strings';
                         }
                     }
@@ -244,21 +244,21 @@ class ApidaeLecture extends ApidaeCore
             $request_query = array_merge($request_query, $auth);
         }
 
-        if (sizeof($apidae_query) > 0) {
-            $request_query['query'] = json_encode($apidae_query, true);
+        if (count($apidae_query) > 0) {
+            $request_query['query'] = json_encode($apidae_query);
         }
 
         // Remplace les {id} par leurs valeurs dans l'URL
         $relative_uri = UriTemplate::expand($operation_uri, $params_uri);
 
         $diff = array_diff(array_keys($params), $params_traites);
-        if (sizeof($diff) > 0) {
+        if (count($diff) > 0) {
             foreach ($diff as $p) {
                 $erreurs[] = 'Paramètre ' . $p . ' inconnu';
             }
         }
 
-        if (sizeof($erreurs) > 0) {
+        if (count($erreurs) > 0) {
             throw new ApidaeException('errors', ApidaeException::INVALID_PARAMETER, [
                 'debug' => $this->debug,
                 'errors' => $erreurs
@@ -266,25 +266,23 @@ class ApidaeLecture extends ApidaeCore
         }
 
         $options = ['debug' => $this->debugQuery] ;
-        if ( $http_method == 'GET' ) {
+        if ( $http_method == 'get' ) {
             $options['query'] = $request_query ;
-        } elseif ( $http_method == 'POST' ) {
-            $options['json'] = $request_query ;
+        } elseif ( $http_method == 'post' ) {
+            $options['form_params'] = $request_query ;
         }
         
         try {
-            $response = $this->client->$$http_method($relative_uri, $options);
+            $response = $this->client->$http_method($relative_uri, $options);
         } catch (RequestException $e) {
-            $request = $e->getRequest();
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
-                $responseBodyAsString = $response->getBody()->getContents(); // https://stackoverflow.com/a/30957410/2846837
+                $responseBodyAsString = $response->getBody()->getContents();
                 $code = $response->getStatusCode();
 
                 $details = [
                     'debug' => $this->debug,
                     'response' => $response,
-                    //'request' => $request->getUri()
                 ];
 
                 if ($this->isJson($responseBodyAsString)) {
@@ -294,10 +292,12 @@ class ApidaeLecture extends ApidaeCore
                 }
                 throw new ApidaeException('API RequestException : ' . $code, ApidaeException::INVALID_HTTPCODE, $details);
             }
+
+            throw $e;
         }
 
         if ($response->getStatusCode() == 200) {
-            $body = $response->getBody();
+            $body = (string) $response->getBody();
             if ($this->isJson($body)) {
                 if ($format == 'object') {
                     return json_decode($body);
@@ -306,12 +306,11 @@ class ApidaeLecture extends ApidaeCore
                 }
             }
             return $body;
-        } else {
-            throw new ApidaeException('API bad_response : ' . $response->getStatusCode(), ApidaeException::INVALID_HTTPCODE, [
-                'debug' => $this->debug,
-                'request' => $request,
-                'response' => $response,
-            ]);
         }
+
+        throw new ApidaeException('API bad_response : ' . $response->getStatusCode(), ApidaeException::INVALID_HTTPCODE, [
+            'debug' => $this->debug,
+            'response' => $response,
+        ]);
     }
 }
